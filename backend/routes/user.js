@@ -8,10 +8,10 @@ const User = require('../models/user.model')
 
 //sign up, create new user if user input email does not exist in database
 router.post('/signup', (req, res, next) => {
-    User.find({email: req.body.email})
+    User.findOne({email: req.body.email})
         .exec()
         .then(user => {
-            if(user.length >= 1){
+            if(user.email === req.body.email){
                 return res.status(422).json({
                     message: 'this email address already exists.'
                 })
@@ -31,7 +31,7 @@ router.post('/signup', (req, res, next) => {
                             .then(result => {
                                 console.log(result)
                                 res.status(201).json({
-                                    message: user created
+                                    message: 'user created'
                                 })
                             })
                             .catch(err => {
@@ -48,10 +48,10 @@ router.post('/signup', (req, res, next) => {
 
 //login post request, find the user with email input
 router.post('/login', ( req, res, next ) => {
-    User.find({email: req.body.email})
+    User.findOne({email: req.body.email})
         .exec()
         .then(user => {
-            if(user.length < 1) {
+            if(user.email !== req.body.email) {
                 //404 no user found is too specific information
                 //where hackers can try different emails to check which email exist
                 //in the database or not. so staying vague with 401
@@ -61,7 +61,7 @@ router.post('/login', ( req, res, next ) => {
             }
             //compare if the pw user typed in is matching
             //with the email from the database
-            bcrypt.compare(req.body.password, user[0].password, (err, result) => {
+            bcrypt.compare(req.body.password, user.password, (err, result) => {
                 if(err) {
                     return res.status(401).json({
                         message: 'Authorization failed'
@@ -71,8 +71,8 @@ router.post('/login', ( req, res, next ) => {
                 if(result) {
                     const token = jwt.sign(
                         {
-                            email: user[0].email,
-                            userId: user[0]._id
+                            email: user.email,
+                            userId: user._id
                         },
                         process.env.JWT_KEY,
                         {
