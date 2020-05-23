@@ -7,12 +7,12 @@ const PORT = 5000 || process.env.PORT
 
 require('dotenv').config()
 
-// const userRoutes = require('./routes/user')
+const userRoutes = require('./routes/user')
 const uri = process.env.ATLAS_URI
 
 app.use(cors())
 app.use(express.json())
-// app.use('/user', userRoutes)
+app.use('/user', userRoutes)
 
 mongoose.connect(uri,  { 
                         useNewUrlParser: true,
