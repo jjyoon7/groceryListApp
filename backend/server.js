@@ -5,14 +5,14 @@ const mongoose = require('mongoose')
 const app = express()
 const PORT = 5000 || process.env.PORT
 
-const userRoutes = require('./routes/user')
-const uri = process.env.ATLAS_URI
-
 require('dotenv').config()
+
+// const userRoutes = require('./routes/user')
+const uri = process.env.ATLAS_URI
 
 app.use(cors())
 app.use(express.json())
-app.use('/user', userRoutes)
+// app.use('/user', userRoutes)
 
 mongoose.connect(uri,  { 
                         useNewUrlParser: true,
