@@ -2,6 +2,7 @@ const express = require('express')
 // const cors = require('cors')
 const mongoose = require('mongoose')
 const morgan = require('morgan')
+const bodyParser = require('body-parser')
 const app = express()
 
 require('dotenv').config()
@@ -14,8 +15,12 @@ const uri = process.env.ATLAS_URI
 // app.use(express.json())
 
 app.use(morgan('dev'))
-app.use('/user', userRoutes)
-app.use('/grocery', groceryRoutes)
+
+app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.json())
+
+app.use('/users', userRoutes)
+app.use('/groceries', groceryRoutes)
 
 //if the routes does not match or exists, throw error
 app.use((req, res, next) => {

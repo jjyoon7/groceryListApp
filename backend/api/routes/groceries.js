@@ -4,13 +4,13 @@ const mongoose = require('mongoose')
 
 const Grocery = require('../models/grocery.model')
 
-router.route('/').get(( req, res ) => {
+router.get('/', (req, res, next) => {
     Grocery.find()
         .then(groceries => res.json(groceries))
         .catch(err => res.status(400).json('Error: ') + err)
 })
 
-router.route('/add').post(( req, res ) => {
+router.post('/', (req, res, next) => {
     const name = req.budy.name
     const quantity = req.body.quantity
     const buyer = req.body.buyer
@@ -26,20 +26,20 @@ router.route('/add').post(( req, res ) => {
         .catch(err => res.status(400).json('Error: ') + err)
 })
 
-router.route('/:id').get(( req, res ) => {
-    Grocery.findById(req.params.id)
+router.get('/:groceryId', ( req, res ) => {
+    Grocery.findById(req.params.groceryId)
         .then(grocery => res.json(grocery))
         .catch(err => res.status(400).json('Error: ') + err)
 })
 
-router.route('/:id').delete(( req, res ) => {
-    Grocery.findByIdAndDelete(req.params.id)
+router.delete('/:groceryId', ( req, res ) => {
+    Grocery.findByIdAndDelete(req.params.groceryId)
         .then(() => res.json('Grocery deleted.'))
         .catch(err => res.status(400).json('Error: ') + err)
 })
 
-router.route('/update/:id').post(( req, res ) => {
-    Grocery.findById(req.params.id)
+router.patch('/:groceryId', ( req, res ) => {
+    Grocery.findById(req.params.groceryId)
         .then(grocery => {
             grocery.name = req.body.name
             grocery.quantity = req.body.quantity
