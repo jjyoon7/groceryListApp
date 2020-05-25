@@ -1,7 +1,7 @@
 const express = require('express')
 // const cors = require('cors')
 const mongoose = require('mongoose')
-
+const morgan = require('morgan')
 const app = express()
 
 require('dotenv').config()
@@ -12,6 +12,8 @@ const uri = process.env.ATLAS_URI
 
 // app.use(cors())
 // app.use(express.json())
+
+app.use(morgan('dev'))
 app.use('/user', userRoutes)
 app.use('/grocery', groceryRoutes)
 
