@@ -39,17 +39,39 @@ router.delete('/:groceryId', ( req, res ) => {
 })
 
 router.patch('/:groceryId', ( req, res ) => {
-    Grocery.findById(req.params.groceryId)
-        .then(grocery => {
-            grocery.name = req.body.name
-            grocery.quantity = req.body.quantity
-            grocery.buyer = req.body.buyer
-            
-            grocery.save()
-                .then(() => res.json('Grocery updated.'))
-                .catch(err => res.status(400).json('Error: ') + err)
+    const id = req.params.groceryId
+    const updateOps = {}
+
+    for (const ops of req.body) {
+        updateOps[ops.propName] = ops.value
+    }
+
+    Grocery.update({_id: id}, { $set: updateOps })
+        .exec()
+        .then(result => {
+            console.log(result)
+            res.status(200).json({
+                message: 'updated grocery successfully'
+            })
         })
-        .catch(err => res.status(400).json('Error: ') + err)
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({
+                error: err
+            })
+        })
+
+    // Grocery.findById(req.params.groceryId)
+    //     .then(grocery => {
+    //         grocery.name = req.body.name
+    //         grocery.quantity = req.body.quantity
+    //         grocery.buyer = req.body.buyer
+            
+    //         grocery.save()
+    //             .then(() => res.json('Grocery updated.'))
+    //             .catch(err => res.status(400).json('Error: ') + err)
+    //     })
+    //     .catch(err => res.status(400).json('Error: ') + err)
 })
 
 module.exports = router
