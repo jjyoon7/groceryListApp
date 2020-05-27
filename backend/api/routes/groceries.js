@@ -6,7 +6,11 @@ const Grocery = require('../models/grocery.model')
 
 router.get('/', async(req, res, next) => {
     try {
-        const result = await Grocery.find().exec()
+        const result = await Grocery.find().select('name quantity buyer').exec()
+        const response = {
+            count: result.length,
+            groceries: result
+        }
         res.status(200).json(result)
     } catch(e) {
         console.log(e)
