@@ -26,7 +26,7 @@ router.post('/', (req, res, next) => {
         .catch(err => res.status(400).json('Error: ') + err)
 })
 
-router.get('/:groceryId', async( req, res ) => {
+router.get('/:groceryId', async( req, res, next ) => {
     const id = req.params.groceryId
 
     try {
@@ -39,7 +39,7 @@ router.get('/:groceryId', async( req, res ) => {
     }
 })
 
-router.delete('/:groceryId', ( req, res ) => {
+router.delete('/:groceryId', ( req, res, next ) => {
     Grocery.findByIdAndDelete(req.params.groceryId)
         .then(() => res.json('Grocery deleted.'))
         .catch(err => res.status(400).json('Error: ') + err)
