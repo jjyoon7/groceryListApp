@@ -51,7 +51,7 @@ router.post('/', async(req, res, next) => {
                 url: 'http"//localhostL5000/products' + result._id
             }
         }
-        res.status(201).json(result)
+        res.status(201).json(response)
     } catch(e) {
         console.log(e)
         res.status(500).json(e)
