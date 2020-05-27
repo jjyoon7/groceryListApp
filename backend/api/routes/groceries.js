@@ -63,8 +63,16 @@ router.get('/:groceryId', async( req, res, next ) => {
 
     try {
         const result = await Grocery.findById(id).exec()
-        console.log(result)
-        res.status(200).json(result)
+        const response = {
+            name: result.name,
+            quantity: result.quantity,
+            _id: result._id,
+            request: {
+                type: 'GET',
+                url: 'http"//localhostL5000/products' + result._id
+            }
+        }
+        res.status(200).json(response)
     } catch(e) {
         console.log(e)
         res.status(500).json(e)
@@ -77,8 +85,14 @@ router.patch('/:groceryId', async( req, res, next ) => {
 
     try {
         const result = await Grocery.updateOne({_id: id}, props).exec()
-        console.log(result)
-        res.status(200).json(result)
+        const response = {
+            message: 'Grocery updated',
+            request: {
+                type: 'GET',
+                url: 'http"//localhostL5000/products' + result._id
+            }
+        }
+        res.status(200).json(response)
     } catch(e) {
         console.log(e)
         res.status(500).json(e)
