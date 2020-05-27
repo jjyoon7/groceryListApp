@@ -42,7 +42,16 @@ router.post('/', async(req, res, next) => {
 
     try {
         const result = await grocery.save()
-        res.status(200).json(result)
+        const response = {
+            name: result.name,
+            quantity: result.quantity,
+            _id: result._id,
+            request: {
+                type: 'POST',
+                url: 'http"//localhostL5000/products' + result._id
+            }
+        }
+        res.status(201).json(result)
     } catch(e) {
         console.log(e)
         res.status(500).json(e)
