@@ -103,7 +103,9 @@ router.delete('/:groceryId', async( req, res, next ) => {
     const id = req.params.groceryId
     try {
         const result = await Grocery.deleteOne({_id: id}).exec()
-        res.status(200).json(result)
+        res.status(200).json({
+            message: 'Grocery deleted'
+        })
     } catch(e) {
         console.log(e)
         res.status(500).json(e)
