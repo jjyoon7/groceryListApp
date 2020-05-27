@@ -6,12 +6,23 @@ const Grocery = require('../models/grocery.model')
 
 router.get('/', async(req, res, next) => {
     try {
-        const result = await Grocery.find().select('name quantity buyer').exec()
+        const results = await Grocery.find().select('name quantity buyer').exec()
         const response = {
-            count: result.length,
-            groceries: result
+            count: results.length,
+            groceries: results.map(result => {
+                return {
+                    name: result.name,
+                    quantity: result.quantity,
+                    _id: result._id,
+                    request: {
+                        type: 'GET',
+                        //pass real url in the future
+                        url: 'http"//localhostL5000/products' + result._id
+                    }
+                }
+            })
         }
-        res.status(200).json(result)
+        res.status(200).json(response)
     } catch(e) {
         console.log(e)
         res.status(500).json(e)
