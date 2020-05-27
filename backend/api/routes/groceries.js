@@ -26,10 +26,17 @@ router.post('/', (req, res, next) => {
         .catch(err => res.status(400).json('Error: ') + err)
 })
 
-router.get('/:groceryId', ( req, res ) => {
-    Grocery.findById(req.params.groceryId)
-        .then(grocery => res.json(grocery))
-        .catch(err => res.status(400).json('Error: ') + err)
+router.get('/:groceryId', async( req, res ) => {
+    const id = req.params.groceryId
+
+    try {
+        const result = await Grocery.findById(id).exec()
+        console.log(result)
+        res.status(200).json(result)
+    } catch(e) {
+        console.log(e)
+        res.status(500).json(e)
+    }
 })
 
 router.delete('/:groceryId', ( req, res ) => {
