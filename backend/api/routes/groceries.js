@@ -16,8 +16,7 @@ router.get('/', async(req, res, next) => {
                     _id: result._id,
                     request: {
                         type: 'GET',
-                        //pass real url in the future
-                        url: 'http"//localhostL5000/products' + result._id
+                        url: req.get('host') + '/groceries/' + result._id
                     }
                 }
             })
@@ -48,7 +47,7 @@ router.post('/', async(req, res, next) => {
             _id: result._id,
             request: {
                 type: 'POST',
-                url: 'http"//localhostL5000/products' + result._id
+                url: req.get('host') + '/groceries/' + result._id
             }
         }
         res.status(201).json(response)
@@ -69,7 +68,7 @@ router.get('/:groceryId', async( req, res, next ) => {
             _id: result._id,
             request: {
                 type: 'GET',
-                url: 'http"//localhostL5000/products' + result._id
+                url: req.get('host') + '/groceries/' + result._id
             }
         }
         res.status(200).json(response)
@@ -89,7 +88,7 @@ router.patch('/:groceryId', async( req, res, next ) => {
             message: 'Grocery updated',
             request: {
                 type: 'GET',
-                url: 'http"//localhostL5000/products' + result._id
+                url:  + result._id
             }
         }
         res.status(200).json(response)
