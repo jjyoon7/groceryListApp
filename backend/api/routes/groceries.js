@@ -6,7 +6,7 @@ const Grocery = require('../models/grocery.model')
 
 router.get('/', async(req, res, next) => {
     try {
-        const results = await Grocery.find().select('name quantity buyer').exec()
+        const results = await Grocery.find().select('name quantity buyer')
         const response = {
             count: results.length,
             groceries: results.map(result => {
@@ -61,7 +61,7 @@ router.get('/:groceryId', async( req, res, next ) => {
     const id = req.params.groceryId
 
     try {
-        const result = await Grocery.findById(id).exec()
+        const result = await Grocery.findById(id)
         const response = {
             name: result.name,
             quantity: result.quantity,
@@ -83,7 +83,7 @@ router.patch('/:groceryId', async( req, res, next ) => {
     const props = req.body
 
     try {
-        const result = await Grocery.updateOne({_id: id}, props).exec()
+        const result = await Grocery.updateOne({_id: id}, props)
         const response = {
             message: 'Grocery updated',
             request: {
@@ -101,7 +101,7 @@ router.patch('/:groceryId', async( req, res, next ) => {
 router.delete('/:groceryId', async( req, res, next ) => {
     const id = req.params.groceryId
     try {
-        const result = await Grocery.deleteOne({_id: id}).exec()
+        const result = await Grocery.deleteOne({_id: id})
         res.status(200).json({
             message: 'Grocery deleted'
         })
